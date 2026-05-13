@@ -1,6 +1,11 @@
+pip install seaborn
+pip install matplotlib
+
 import streamlit as st
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 filtered_df = pd.read_csv ('filtered_df.csv')
 df = pd.read_csv ('df.csv')
