@@ -1,1 +1,30 @@
+name: Deploy to AWS S3
 
+on:
+  push:
+    branches:
+      -main # Triggers the workflow on push to the main branch
+
+permissions:
+  id-token: write # This is required for requesting the JWT/OIDC token
+  contents: read # This is required for actions/checkout
+
+jobs:
+  deploy:
+    run-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+      uses: actions/checkout@v4
+
+      # Step 2: Configure AWS credentials using OIDC
+      - name: Configure AWS credentials
+      uses: aws-functions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+      # Step 3: Sync files to S3 bucket
+      - name: Deploy file to S3
+        run: |
+          aws s3 sync . s3://github-streamlit-s3-bucket --delete --exclude ".git*"
