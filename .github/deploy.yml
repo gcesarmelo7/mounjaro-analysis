@@ -27,4 +27,4 @@ jobs:
       # Step 3: Sync files to S3 bucket
       - name: Deploy files to S3
         run: |
-          aws s3 sync . s3://your-bucket-name --delete --exclude ".git*"
+          aws s3 sync . s3://github-streamlit-s3-bucket --delete --exclude ".git*"
